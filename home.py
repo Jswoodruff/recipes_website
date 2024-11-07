@@ -102,4 +102,4 @@ if DATABASE_URL:
             conn.close()
 
 else:
-    st.error("DATABASE_URL is not set in environment variables.")
+    st.error("DATABASE_URL is not set 1 in environment variables.")
