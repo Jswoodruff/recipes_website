@@ -7,16 +7,18 @@ import os
 
 load_dotenv()
 
-# Get the database URL from the .env file
-DATABASE_URL = os.getenv("DATABASE_URL")
-
+# Connect to the PostgreSQL database
 try:
     conn = psycopg2.connect(
-    "user=postgres.mzdojmmzxjkjbueagxxv password=supa3Brothers!base host=aws-0-us-west-1.pooler.supabase.com port=6543 dbname=postgres"
-)
+        user=os.getenv("SUPABASE_USER"),
+        password=os.getenv("SUPABASE_PASSWORD"),
+        host=os.getenv("SUPABASE_HOST"),
+        port=os.getenv("SUPABASE_PORT"),
+        dbname=os.getenv("SUPABASE_DATABASE")
+    )
     c = conn.cursor()
 except Exception as e:
-    st.error(f"Error connecting to database: {e}")
+    print(f"Error connecting to database: {e}")
 
 # Create table if it doesn't exist, adding meal type
 try:
