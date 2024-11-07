@@ -93,8 +93,13 @@ if DATABASE_URL:
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
 
-else:
-    st.error("DATABASE_URL is not set in environment variables.")
+
 
 # Close the connection and cursor
+    finally:
+        if conn:
+            c.close()
+            conn.close()
 
+else:
+    st.error("DATABASE_URL is not set in environment variables.")
