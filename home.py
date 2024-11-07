@@ -11,7 +11,9 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 try:
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = psycopg2.connect(
+    "postgres://postgres.mzdojmmzxjkjbueagxxv:[supa3Brothers!base]@aws-0-us-west-1.pooler.supabase.com:6543/postgres?sslmode=require"
+)
     c = conn.cursor()
 except Exception as e:
     st.error(f"Error connecting to database: {e}")
