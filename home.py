@@ -10,15 +10,10 @@ load_dotenv()
 st.title("Recipe Storage App")
 
 # Database connection setup inside a try block
+DATABASE_URL = os.getenv("SUPABASE_URL")
 try:
-    # Establish the connection
-    conn = psycopg2.connect(
-        user=os.getenv("SUPABASE_USER"),
-        password=os.getenv("SUPABASE_PASSWORD"),
-        host=os.getenv("SUPABASE_HOST"),
-        port=os.getenv("SUPABASE_PORT"),
-        dbname=os.getenv("SUPABASE_DATABASE")
-    )
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')  # for Supabase, you may need SSL mode
+    c = conn.cursor()
     
     # Define cursor after successful connection
     c = conn.cursor()
