@@ -8,7 +8,7 @@ import os
 load_dotenv()
 
 # Check if DATABASE_URL is being loaded
-print(os.getenv("DATABASE_URL"))
+st.write(os.getenv("DATABASE_URL"))
 
 # Streamlit app
 st.title("Recipe Storage App")
