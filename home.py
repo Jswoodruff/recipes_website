@@ -12,7 +12,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 try:
     conn = psycopg2.connect(
-    "postgres://postgres.mzdojmmzxjkjbueagxxvpassword= supa3Brothers!base host=aws-0-us-west-1.pooler.supabase.com:6543/postgres?sslmode=require"
+    "user=postgres.mzdojmmzxjkjbueagxxv password=supa3Brothers!base host=aws-0-us-west-1.pooler.supabase.com port=6543 dbname=postgres"
 )
     c = conn.cursor()
 except Exception as e:
