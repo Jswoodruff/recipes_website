@@ -102,5 +102,7 @@ except Exception as e:
 
 # Close the database connection and cursor when done
 finally:
-    c.close()
-    conn.close()
+    if 'c' in locals():
+        c.close()
+    if 'conn' in locals():
+        conn.close()
