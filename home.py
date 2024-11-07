@@ -7,6 +7,8 @@ import os
 load_dotenv()
 
 # Connect to Supabase (PostgreSQL) database
+c = None
+
 try:
     conn = psycopg2.connect(
         host=os.getenv("SUPABASE_HOST"),
