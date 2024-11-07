@@ -9,15 +9,11 @@ load_dotenv()
 env_file = os.getenv("SUPABASE_USER")
 
 # Build the DATABASE_URL connection string using the individual variables
-DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
+# DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
 
 # Check if the individual environment variables are being loaded correctly
 st.write(f"SUPABASE_USER: {SUPABASE_USER}")
-st.write(f"SUPABASE_PASSWORD: {SUPABASE_PASSWORD}")
-st.write(f"SUPABASE_HOST: {SUPABASE_HOST}")
-st.write(f"SUPABASE_PORT: {SUPABASE_PORT}")
-st.write(f"SUPABASE_DATABASE: {SUPABASE_DATABASE}")
-st.write(f"DATABASE_URL: {DATABASE_URL}")
+
 
 # Streamlit app
 st.title("Recipe Storage App")
