@@ -3,13 +3,10 @@ import psycopg2
 from dotenv import load_dotenv
 import os
 
-import streamlit as st
-import psycopg2
-from dotenv import load_dotenv
-import os
-
 # Load environment variables from .env file
-load_dotenv()
+dotenv_path = r"C:\Users\wrest\OneDrive\Documents\GitHub\recipes_website\.env"
+load_dotenv(dotenv_path)
+
 
 # Get the individual components from the environment variables
 SUPABASE_USER = os.getenv("SUPABASE_USER")
