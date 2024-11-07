@@ -11,7 +11,7 @@ st.title("Recipe Storage App")
 
 # Database connection setup inside a try block
 try:
-    # Connect to the PostgreSQL database
+    # Establish the connection
     conn = psycopg2.connect(
         user=os.getenv("SUPABASE_USER"),
         password=os.getenv("SUPABASE_PASSWORD"),
