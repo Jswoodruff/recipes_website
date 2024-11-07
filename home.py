@@ -15,7 +15,7 @@ try:
         database=os.getenv("SUPABASE_DATABASE"),
         user=os.getenv("SUPABASE_USER"),
         password=os.getenv("SUPABASE_PASSWORD"),
-        port=6543
+        port=5432
     )
     c = conn.cursor()
 except Exception as e:
