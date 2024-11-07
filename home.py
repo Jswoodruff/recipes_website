@@ -5,7 +5,18 @@ import os
 
 # Load environment variables from .env file
 # Load environment variables from .env file
-load_dotenv(dotenv_path='/path/to/.env')
+load_dotenv()
+
+# Get the individual components from the environment variables
+SUPABASE_USER = os.getenv("SUPABASE_USER")
+SUPABASE_PASSWORD = os.getenv("SUPABASE_PASSWORD")
+SUPABASE_HOST = os.getenv("SUPABASE_HOST")
+SUPABASE_PORT = os.getenv("SUPABASE_PORT")
+SUPABASE_DATABASE = os.getenv("SUPABASE_DATABASE")
+
+# Build the DATABASE_URL connection string using the individual variables
+DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
+
 
 # Check if DATABASE_URL is being loaded
 st.write(os.getenv("DATABASE_URL"))
