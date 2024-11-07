@@ -4,9 +4,11 @@ from dotenv import load_dotenv
 import os
 
 # Full path to your .env file
-dotenv_path = r"C:\Users\wrest\OneDrive\Documents\GitHub\recipes_website\.env"
+current_dir = os.getcwd()
+st.write(f"Current working directory: {current_dir}")
 
-# Load the environment variables
+# Set the path to the .env file
+dotenv_path = os.path.join(current_dir, '.env')
 load_dotenv(dotenv_path)
 # Check the loaded variables
 SUPABASE_USER = os.getenv("SUPABASE_USER")
