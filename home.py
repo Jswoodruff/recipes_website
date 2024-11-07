@@ -3,23 +3,7 @@ import psycopg2
 from dotenv import load_dotenv
 import os
 
-# Load environment variables from .env file
-# Load environment variables from .env file
-load_dotenv()
-env_file = os.getenv("SUPABASE_USER")
-
-# Build the DATABASE_URL connection string using the individual variables
-# DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
-
-# Check if the individual environment variables are being loaded correctly
-# st.write(f"SUPABASE_USER: {SUPABASE_USER}")
-
-
-# Streamlit app
-st.title("Recipe Storage App")
-
-# Use DATABASE_URL for Supabase
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = "postgres://postgres.mzdojmmzxjkjbueagxxv:supa3Brothers!base@aws-0-us-west-1.pooler.supabase.com:6543/postgres"
 
 if DATABASE_URL:
     try:
