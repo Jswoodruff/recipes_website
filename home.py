@@ -12,9 +12,6 @@ SUPABASE_DATABASE = st.secrets["supabase"]["SUPABASE_DATABASE"]
 # Constructing the DATABASE_URL
 DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
 
-# Debugging: Check the DATABASE_URL
-st.write(f"DATABASE_URL: {DATABASE_URL}")
-
 if DATABASE_URL:
     try:
         # Connect to the database using the DATABASE_URL
