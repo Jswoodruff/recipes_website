@@ -4,27 +4,18 @@ from dotenv import load_dotenv
 import os
 
 # Full path to your .env file
-current_dir = os.getcwd()
-st.write(f"Current working directory: {current_dir}")
+# Access secrets from the Streamlit Cloud Secrets tab
+SUPABASE_USER = st.secrets["SUPABASE_USER"]
+SUPABASE_PASSWORD = st.secrets["SUPABASE_PASSWORD"]
+SUPABASE_HOST = st.secrets["SUPABASE_HOST"]
+SUPABASE_PORT = st.secrets["SUPABASE_PORT"]
+SUPABASE_DATABASE = st.secrets["SUPABASE_DATABASE"]
 
-# Set the path to the .env file
-dotenv_path = os.path.join(current_dir, '.env')
-load_dotenv(dotenv_path)
-# Check the loaded variables
-SUPABASE_USER = os.getenv("SUPABASE_USER")
-SUPABASE_PASSWORD = os.getenv("SUPABASE_PASSWORD")
-SUPABASE_HOST = os.getenv("SUPABASE_HOST")
-SUPABASE_PORT = os.getenv("SUPABASE_PORT")
-SUPABASE_DATABASE = os.getenv("SUPABASE_DATABASE")
+# Construct the DATABASE_URL from the above information
+DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
 
-# Check if environment variables are loaded correctly
-st.write(f"SUPABASE_USER: {SUPABASE_USER}")
-st.write(f"SUPABASE_PASSWORD: {SUPABASE_PASSWORD}")
-st.write(f"SUPABASE_HOST: {SUPABASE_HOST}")
-st.write(f"SUPABASE_PORT: {SUPABASE_PORT}")
-st.write(f"SUPABASE_DATABASE: {SUPABASE_DATABASE}")
-st.write("Current working directory:", os.getcwd())  # Print current directory
-st.write("Files in the directory:", os.listdir(os.getcwd())) 
+# Display the DATABASE_URL to confirm it's set up
+st.write(f"DATABASE_URL: {DATABASE_URL}")
 
 DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
 
