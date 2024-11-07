@@ -8,7 +8,9 @@ import os
 load_dotenv()
 
 # Connect to the PostgreSQL database
+
 try:
+    # Establish the connection
     conn = psycopg2.connect(
         user=os.getenv("SUPABASE_USER"),
         password=os.getenv("SUPABASE_PASSWORD"),
@@ -16,12 +18,11 @@ try:
         port=os.getenv("SUPABASE_PORT"),
         dbname=os.getenv("SUPABASE_DATABASE")
     )
+    
+    # Define cursor after successful connection
     c = conn.cursor()
-except Exception as e:
-    print(f"Error connecting to database: {e}")
 
-# Create table if it doesn't exist, adding meal type
-try:
+    # Create table if it doesn't exist
     c.execute('''
         CREATE TABLE IF NOT EXISTS recipes (
             id SERIAL PRIMARY KEY,
@@ -32,8 +33,10 @@ try:
         );
     ''')
     conn.commit()
+
 except Exception as e:
-    st.error(f"Error creating table: {e}")
+    print(f"Error creating table: {e}")
+    
 
 # Streamlit app
 st.title("Recipe Storage App")
