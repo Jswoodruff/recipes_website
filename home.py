@@ -10,7 +10,9 @@ load_dotenv()
 st.title("Recipe Storage App")
 
 # Database connection setup inside a try block
-DATABASE_URL = os.getenv("SUPABASE_URL")
+# DATABASE_URL = os.getenv("SUPABASE_URL")
+DATABASE_URL='postgres://postgres.mzdojmmzxjkjbueagxxv:[supa3Brothers!base]@aws-0-us-west-1.pooler.supabase.com:6543/postgres'
+
 try:
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')  # for Supabase, you may need SSL mode
     c = conn.cursor()
