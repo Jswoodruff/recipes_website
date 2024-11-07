@@ -3,17 +3,27 @@ import psycopg2
 from dotenv import load_dotenv
 import os
 
-SUPABASE_USER = st.secrets["supabase"]["SUPABASE_USER"]
-SUPABASE_PASSWORD = st.secrets["supabase"]["SUPABASE_PASSWORD"]
-SUPABASE_HOST = st.secrets["supabase"]["SUPABASE_HOST"]
-SUPABASE_PORT = st.secrets["supabase"]["SUPABASE_PORT"]
-SUPABASE_DATABASE = st.secrets["supabase"]["SUPABASE_DATABASE"]
+# Get current working directory where the app is running
+current_dir = os.getcwd()
+st.write(f"Current working directory: {current_dir}")
 
-# Construct the DATABASE_URL from the above information
-DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
+# Set the path to the .env file
+dotenv_path = os.path.join(current_dir, '.env')
+load_dotenv(dotenv_path)
 
-# Display DATABASE_URL for debugging
-st.write(f"DATABASE_URL: {DATABASE_URL}")
+# Check the loaded variables
+SUPABASE_USER = os.getenv("SUPABASE_USER")
+SUPABASE_PASSWORD = os.getenv("SUPABASE_PASSWORD")
+SUPABASE_HOST = os.getenv("SUPABASE_HOST")
+SUPABASE_PORT = os.getenv("SUPABASE_PORT")
+SUPABASE_DATABASE = os.getenv("SUPABASE_DATABASE")
+
+# Display the environment variables to verify
+st.write(f"SUPABASE_USER: {SUPABASE_USER}")
+st.write(f"SUPABASE_PASSWORD: {SUPABASE_PASSWORD}")
+st.write(f"SUPABASE_HOST: {SUPABASE_HOST}")
+st.write(f"SUPABASE_PORT: {SUPABASE_PORT}")
+st.write(f"SUPABASE_DATABASE: {SUPABASE_DATABASE}")
 
 DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
 
