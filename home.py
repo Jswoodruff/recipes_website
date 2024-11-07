@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
-dotenv_path = r"C:\Users\wrest\OneDrive\Documents\GitHub\recipes_website\.env"
+dotenv_path = "C:\\Users\\wrest\\OneDrive\\Documents\GitHub\\recipes_website\\.env"
 load_dotenv(dotenv_path)
 st.write(f"Path to .env: {dotenv_path}")
 
