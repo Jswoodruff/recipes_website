@@ -7,7 +7,7 @@ SUPABASE_USER = st.secrets["supabase"]["SUPABASE_USER"]
 SUPABASE_PASSWORD = st.secrets["supabase"]["SUPABASE_PASSWORD"]
 SUPABASE_HOST = st.secrets["supabase"]["SUPABASE_HOST"]
 SUPABASE_PORT = st.secrets["supabase"]["SUPABASE_PORT"]
-SUPABASE_DATABASE = st.secrets["supabase"]["SUPABASE_DATABASE"]
+SUPABASE_DATABASE = st.secrets["supabase"]["SUPABASE_DATABASE"] 1
 
 # Constructing the DATABASE_URL
 DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
