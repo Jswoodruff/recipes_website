@@ -35,11 +35,7 @@ try:
     conn.commit()
 
 except Exception as e:
-    print(f"Error creating table: {e}")
-    
-
-# Streamlit app
-st.title("Recipe Storage App")
+    st.error(f"Error creating table: {e}")
 
 # Input form to add a new recipe
 st.header("Add a New Recipe")
@@ -67,8 +63,6 @@ with st.form("recipe_form"):
 
 # Display stored recipes
 st.header("Stored Recipes")
-
-# Filter recipes by meal type
 meal_filter = st.selectbox("Filter by Meal Type", ["All", "Breakfast", "Lunch", "Dinner"])
 
 try:
@@ -103,5 +97,7 @@ except Exception as e:
 
 # Close the database connection and cursor when done
 finally:
-    c.close()
-    conn.close()
+    if 'c' in locals():
+        c.close()
+    if 'conn' in locals():
+        conn.close()
