@@ -3,13 +3,11 @@ import psycopg2
 from dotenv import load_dotenv
 import os
 
-# Full path to your .env file
-# Access secrets from the Streamlit Cloud Secrets tab
-SUPABASE_USER = st.secrets["SUPABASE_USER"]
-SUPABASE_PASSWORD = st.secrets["SUPABASE_PASSWORD"]
-SUPABASE_HOST = st.secrets["SUPABASE_HOST"]
-SUPABASE_PORT = st.secrets["SUPABASE_PORT"]
-SUPABASE_DATABASE = st.secrets["SUPABASE_DATABASE"]
+SUPABASE_USER = st.secrets["supabase"]["SUPABASE_USER"]
+SUPABASE_PASSWORD = st.secrets["supabase"]["SUPABASE_PASSWORD"]
+SUPABASE_HOST = st.secrets["supabase"]["SUPABASE_HOST"]
+SUPABASE_PORT = st.secrets["supabase"]["SUPABASE_PORT"]
+SUPABASE_DATABASE = st.secrets["supabase"]["SUPABASE_DATABASE"]
 
 # Construct the DATABASE_URL from the above information
 DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
