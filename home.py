@@ -15,7 +15,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if DATABASE_URL:
     try:
         # Connect to the database using the DATABASE_URL
-        conn = psycopg2.connect(DATABASE_URL, sslmode='require')  # SSL mode is required for Supabase
+        conn = psycopg2.connect(DATABASE_URL)  # SSL mode is required for Supabase
         c = conn.cursor()
 
         # Create table if it doesn't exist
