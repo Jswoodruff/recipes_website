@@ -4,7 +4,11 @@ from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
+# Load environment variables from .env file
 load_dotenv()
+
+# Check if DATABASE_URL is being loaded
+print(os.getenv("DATABASE_URL"))
 
 # Streamlit app
 st.title("Recipe Storage App")
