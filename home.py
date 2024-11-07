@@ -4,13 +4,13 @@ from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
+
 load_dotenv()
 
-# Streamlit app
-st.title("Recipe Storage App")
+# Connect to the PostgreSQL database
 
 try:
-    # Connect to the PostgreSQL database
+    # Establish the connection
     conn = psycopg2.connect(
         user=os.getenv("SUPABASE_USER"),
         password=os.getenv("SUPABASE_PASSWORD"),
@@ -18,7 +18,7 @@ try:
         port=os.getenv("SUPABASE_PORT"),
         dbname=os.getenv("SUPABASE_DATABASE")
     )
-
+    
     # Define cursor after successful connection
     c = conn.cursor()
 
@@ -35,7 +35,11 @@ try:
     conn.commit()
 
 except Exception as e:
-    st.error(f"Error creating table: {e}")
+    print(f"Error creating table: {e}")
+    
+
+# Streamlit app
+st.title("Recipe Storage App")
 
 # Input form to add a new recipe
 st.header("Add a New Recipe")
@@ -63,6 +67,8 @@ with st.form("recipe_form"):
 
 # Display stored recipes
 st.header("Stored Recipes")
+
+# Filter recipes by meal type
 meal_filter = st.selectbox("Filter by Meal Type", ["All", "Breakfast", "Lunch", "Dinner"])
 
 try:
@@ -97,7 +103,5 @@ except Exception as e:
 
 # Close the database connection and cursor when done
 finally:
-    if 'c' in locals():
-        c.close()
-    if 'conn' in locals():
-        conn.close()
+    c.close()
+    conn.close()
