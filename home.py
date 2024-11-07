@@ -12,7 +12,7 @@ env_file = os.getenv("SUPABASE_USER")
 # DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
 
 # Check if the individual environment variables are being loaded correctly
-st.write(f"SUPABASE_USER: {SUPABASE_USER}")
+# st.write(f"SUPABASE_USER: {SUPABASE_USER}")
 
 
 # Streamlit app
