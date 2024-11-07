@@ -3,20 +3,19 @@ import psycopg2
 from dotenv import load_dotenv
 import os
 
-# Load environment variables from .env file
-dotenv_path = "C:\\Users\\wrest\\OneDrive\\Documents\GitHub\\recipes_website\\.env"
+# Full path to your .env file
+dotenv_path = r"C:\Users\wrest\OneDrive\Documents\GitHub\recipes_website\.env"
+
+# Load the environment variables
 load_dotenv(dotenv_path)
-st.write(f"Path to .env: {dotenv_path}")
-
-
-# Get the individual components from the environment variables
+# Check the loaded variables
 SUPABASE_USER = os.getenv("SUPABASE_USER")
 SUPABASE_PASSWORD = os.getenv("SUPABASE_PASSWORD")
 SUPABASE_HOST = os.getenv("SUPABASE_HOST")
 SUPABASE_PORT = os.getenv("SUPABASE_PORT")
 SUPABASE_DATABASE = os.getenv("SUPABASE_DATABASE")
 
-# Display environment variables using Streamlit
+# Check if environment variables are loaded correctly
 st.write(f"SUPABASE_USER: {SUPABASE_USER}")
 st.write(f"SUPABASE_PASSWORD: {SUPABASE_PASSWORD}")
 st.write(f"SUPABASE_HOST: {SUPABASE_HOST}")
