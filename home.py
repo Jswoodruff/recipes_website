@@ -21,6 +21,8 @@ st.write(f"SUPABASE_PASSWORD: {SUPABASE_PASSWORD}")
 st.write(f"SUPABASE_HOST: {SUPABASE_HOST}")
 st.write(f"SUPABASE_PORT: {SUPABASE_PORT}")
 st.write(f"SUPABASE_DATABASE: {SUPABASE_DATABASE}")
+st.write("Current working directory:", os.getcwd())  # Print current directory
+st.write("Files in the directory:", os.listdir(os.getcwd())) 
 
 DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
 
