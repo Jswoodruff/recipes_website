@@ -4,19 +4,14 @@ from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
+
 load_dotenv()
 
-# Connect to Supabase (PostgreSQL) database
-c = None
+# Get the database URL from the .env file
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 try:
-    conn = psycopg2.connect(
-        host=os.getenv("SUPABASE_HOST"),
-        database=os.getenv("SUPABASE_DATABASE"),
-        user=os.getenv("SUPABASE_USER"),
-        password=os.getenv("SUPABASE_PASSWORD"),
-        port=os.getenv("SUPABASE_PORT")
-    )
+    conn = psycopg2.connect(DATABASE_URL)
     c = conn.cursor()
 except Exception as e:
     st.error(f"Error connecting to database: {e}")
