@@ -5,7 +5,7 @@ import os
 
 # Load environment variables from .env file
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(dotenv_path='/path/to/.env')
 
 # Check if DATABASE_URL is being loaded
 st.write(os.getenv("DATABASE_URL"))
