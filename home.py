@@ -3,7 +3,30 @@ import psycopg2
 from dotenv import load_dotenv
 import os
 
-DATABASE_URL = "postgres://postgres.mzdojmmzxjkjbueagxxv:supa3Brothers!base@aws-0-us-west-1.pooler.supabase.com:6543/postgres"
+import streamlit as st
+import psycopg2
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get the individual components from the environment variables
+SUPABASE_USER = os.getenv("SUPABASE_USER")
+SUPABASE_PASSWORD = os.getenv("SUPABASE_PASSWORD")
+SUPABASE_HOST = os.getenv("SUPABASE_HOST")
+SUPABASE_PORT = os.getenv("SUPABASE_PORT")
+SUPABASE_DATABASE = os.getenv("SUPABASE_DATABASE")
+
+# Display environment variables using Streamlit
+st.write(f"SUPABASE_USER: {SUPABASE_USER}")
+st.write(f"SUPABASE_PASSWORD: {SUPABASE_PASSWORD}")
+st.write(f"SUPABASE_HOST: {SUPABASE_HOST}")
+st.write(f"SUPABASE_PORT: {SUPABASE_PORT}")
+st.write(f"SUPABASE_DATABASE: {SUPABASE_DATABASE}")
+
+DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
+
 
 if DATABASE_URL:
     try:
