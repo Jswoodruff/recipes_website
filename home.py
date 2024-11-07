@@ -12,7 +12,7 @@ SUPABASE_DATABASE = st.secrets["supabase"]["SUPABASE_DATABASE"]
 # Construct the DATABASE_URL from the above information
 DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
 
-# Display the DATABASE_URL to confirm it's set up
+# Display DATABASE_URL for debugging
 st.write(f"DATABASE_URL: {DATABASE_URL}")
 
 DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
