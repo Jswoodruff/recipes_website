@@ -20,7 +20,7 @@ st.markdown(
     <style>
         /* Style for text inputs */
         .streamlit-expanderHeader, .css-1v0mbdj, .css-1d391kg, .stTextInput input, .stTextArea textarea {
-            background-color: #f0f0f0;  /* Light grey background */
+            background-color: #d3d3d3;  /* Light grey background */
             color: #000000;  /* Black text */
             border: 1px solid #ccc;  /* Light grey border */
             padding: 10px;  /* Padding inside the input box */
@@ -29,7 +29,7 @@ st.markdown(
         
         /* Style for select box */
         .stSelectbox select {
-            background-color: #f0f0f0;
+            background-color: #d3d3d3;
             color: #000000;
             border: 1px solid #ccc;
             padding: 10px;
