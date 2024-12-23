@@ -5,7 +5,3 @@ secondaryBackgroundColor = "#000000" # Set a white sidebar background
 textColor = "#F5F5F5"       # Customize text color
 font = "sans serif"         # Choose font style
 
-[global]
-page_title = "Recipe Manager"  # Set the app's page title
-page_icon = "🍴"              # Add a favicon (use an emoji or a URL)
-layout = "centered"           # Options: "centered" or "wide"

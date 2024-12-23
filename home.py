@@ -1,5 +1,7 @@
 import streamlit as st
 
+st.set_page_config(page_title="Recipe Manager", page_icon="🍴")
+
 # Custom CSS for a smaller sidebar
 st.markdown(
     """
