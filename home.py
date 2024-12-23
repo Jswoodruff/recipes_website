@@ -1,5 +1,11 @@
 import streamlit as st
 
+SUPABASE_USER = st.secrets["supabase"]["SUPABASE_USER"]
+SUPABASE_PASSWORD = st.secrets["supabase"]["SUPABASE_PASSWORD"]
+SUPABASE_HOST = st.secrets["supabase"]["SUPABASE_HOST"]
+SUPABASE_PORT = st.secrets["supabase"]["SUPABASE_PORT"]
+SUPABASE_DATABASE = st.secrets["supabase"]["SUPABASE_DATABASE"] 
+
 st.set_page_config(page_title="Recipe Manager", page_icon="🍴")
 
 # Custom CSS for a smaller sidebar
