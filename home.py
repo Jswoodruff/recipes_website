@@ -39,9 +39,11 @@ if page_selection == "Home":
     st.title("Welcome to Recipe Manager! 🍴")
     st.markdown("""Happy Birthday, Mireya! 🎉❤️
 
-You bring so much love and joy into everything you do, especially when you're cooking. I wanted to give you something that would make it even easier to capture all the delicious memories you create in the kitchen. So, I made you an app to help keep track of all your amazing recipes and make them accessible anywhere. I hope it brings you as much joy as you bring to everyone around you.
+                Four years ago you introduced me to real flavor, real seasonings and real food.
+                I hope you know how much you and your cooking has changed my life. I wanted to 
+                make a way for us to track all our recipes forever. 
 
-Wishing you a day filled with love, laughter, and of course, great food! 😘
+                
 
 With all my love,
     """)
