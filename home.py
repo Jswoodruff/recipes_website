@@ -71,7 +71,7 @@ elif page_selection == "Recipes":
                             )
                             conn.commit()
                             st.success(f"Recipe '{recipe_name}' added successfully!")
-                            st.experimental_rerun()  # Refresh the page to clear the form
+                            st.rerun()  # Refresh the page to clear the form
                 except Exception as e:
                     st.error(f"Error adding recipe: {e}")
             else:
