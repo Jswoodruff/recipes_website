@@ -37,10 +37,13 @@ page_selection = st.sidebar.radio("Choose a page", ("Home", "Recipes"))
 # Home page content
 if page_selection == "Home":
     st.title("Welcome to Recipe Manager! 🍴")
-    st.markdown("""
-    This app helps you manage and discover your favorite recipes.
-    Use the sidebar to navigate between pages:
-    - **Recipes**: View and add recipes to your database.
+    st.markdown("""Happy Birthday, Mireya! 🎉❤️
+
+You bring so much love and joy into everything you do, especially when you're cooking. I wanted to give you something that would make it even easier to capture all the delicious memories you create in the kitchen. So, I made you an app to help keep track of all your amazing recipes and make them accessible anywhere. I hope it brings you as much joy as you bring to everyone around you.
+
+Wishing you a day filled with love, laughter, and of course, great food! 😘
+
+With all my love,
     """)
 
 # Recipes page (Add and View Recipes combined)
@@ -86,9 +89,9 @@ elif page_selection == "Recipes":
     elif page_option == "View Recipes":
         # View Recipes Section
         st.subheader("View Recipes")
-        
+
         meal_filter = st.selectbox("Filter by Meal Type", ["All", "Breakfast", "Lunch", "Dinner", "Dessert"])
-        
+
         try:
             with psycopg2.connect(DATABASE_URL) as conn:
                 with conn.cursor() as c:
@@ -97,25 +100,25 @@ elif page_selection == "Recipes":
                     else:
                         c.execute("SELECT id, name, meal_type FROM recipes WHERE meal_type = %s", (meal_filter,))
                     recipes = c.fetchall()
-        
+
                     if recipes:
                         # Create a 5-column grid for recipe names
                         columns = st.columns(5)  # 5 columns for the grid
                         current_column = 0  # Track the current column in the grid
-    
+
                         recipe_selected = None  # Track the selected recipe
-                    
+
                         for recipe_id, recipe_name, meal_type in recipes:
                             if current_column == 5:  # Reset the column to 0 after 5 items
                                 current_column = 0
-    
+
                             with columns[current_column]:
                                 # Button for each recipe
                                 if st.button(f"{recipe_name}", key=recipe_id):
                                     recipe_selected = recipe_id  # Track the selected recipe
-                            
+
                             current_column += 1  # Move to the next column
-                        
+
                         # If a recipe is selected, show the detailed view
                         if recipe_selected:
                             # Fetch the selected recipe details
@@ -125,25 +128,24 @@ elif page_selection == "Recipes":
                                     recipe = c.fetchone()
                                     if recipe:
                                         recipe_name, ingredients, instructions, meal_type = recipe
-                                        
+
                                         st.subheader(f"{recipe_name} ({meal_type})")
-                                        
+
                                         # Ingredients
                                         st.write("### Ingredients:")
                                         ingredients = ingredients.split('\n')  # Assuming ingredients are separated by newline
                                         for ingredient in ingredients:
                                             if ingredient.strip():  # Avoid empty items
                                                 st.markdown(f"- {ingredient.strip()}")  # Display each ingredient as a bullet point
-                                        
+
                                         # Instructions
                                         st.write("### Instructions:")
                                         instructions = instructions.split('\n')  # Assuming instructions are separated by newline
                                         for idx, instruction in enumerate(instructions, start=1):  # Start numbering from 1
                                             if instruction.strip():  # Avoid empty items
                                                 st.markdown(f"{idx}. {instruction.strip()}")  # Display each instruction with a number
-    
+
                     else:
                         st.write("No recipes found.")
         except Exception as e:
             st.error(f"Error fetching recipes: {e}")
-    
