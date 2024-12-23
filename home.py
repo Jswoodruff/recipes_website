@@ -57,12 +57,19 @@ elif page_selection == "Recipes":
         ingredients = st.text_area("Ingredients")
         instructions = st.text_area("Instructions")
         meal_type = st.selectbox("Select Meal Type", ["Breakfast", "Lunch", "Dinner", "Dessert"])
-
+    
         submit = st.button("Add Recipe")
-
+    
         if submit:
             if recipe_name and ingredients and instructions:
                 try:
+                    # Capitalize the recipe name and split ingredients and instructions for capitalization
+                    recipe_name = recipe_name.strip().capitalize()  # Capitalize the recipe name
+                    
+                    # Capitalize each line in ingredients and instructions
+                    ingredients = "\n".join([ingredient.strip().capitalize() for ingredient in ingredients.split("\n") if ingredient.strip()])
+                    instructions = "\n".join([instruction.strip().capitalize() for instruction in instructions.split("\n") if instruction.strip()])
+    
                     with psycopg2.connect(DATABASE_URL) as conn:
                         with conn.cursor() as c:
                             c.execute(
@@ -71,7 +78,6 @@ elif page_selection == "Recipes":
                             )
                             conn.commit()
                             st.success(f"Recipe '{recipe_name}' added successfully!")
-                            st.rerun()  # Refresh the page to clear the form
                 except Exception as e:
                     st.error(f"Error adding recipe: {e}")
             else:
@@ -80,9 +86,9 @@ elif page_selection == "Recipes":
     elif page_option == "View Recipes":
         # View Recipes Section
         st.subheader("View Recipes")
-        
+
         meal_filter = st.selectbox("Filter by Meal Type", ["All", "Breakfast", "Lunch", "Dinner", "Dessert"])
-    
+
         try:
             with psycopg2.connect(DATABASE_URL) as conn:
                 with conn.cursor() as c:
@@ -91,30 +97,30 @@ elif page_selection == "Recipes":
                     else:
                         c.execute("SELECT id, name, meal_type FROM recipes WHERE meal_type = %s", (meal_filter,))
                     recipes = c.fetchall()
-    
+
                     if recipes:
                         # Create a 5x2 grid layout (5 columns per row, 2 rows per page)
                         num_cols = 5
                         num_rows = 2
                         columns = st.columns(num_cols)  # Create 5 columns in the layout
-    
+
                         for i, (recipe_id, recipe_name, meal_type) in enumerate(recipes):
                             col = columns[i % num_cols]  # Cycle through columns
-    
+
                             with col:
                                 if st.button(f"{recipe_name}", key=recipe_id):
                                     c.execute("SELECT ingredients, instructions FROM recipes WHERE id = %s", (recipe_id,))
                                     recipe = c.fetchone()
                                     if recipe:
                                         st.subheader(f"{recipe_name} ({meal_type})")
-    
+
                                         # Ingredients
                                         st.write("### Ingredients:")
                                         ingredients = recipe[0].split('\n')  # Assuming ingredients are separated by newline
                                         for ingredient in ingredients:
                                             if ingredient.strip():  # Avoid empty items
                                                 st.markdown(f"- {ingredient.strip()}")  # Display each ingredient as a bullet point
-    
+
                                         # Instructions
                                         st.write("### Instructions:")
                                         instructions = recipe[1].split('\n')  # Assuming instructions are separated by newline
