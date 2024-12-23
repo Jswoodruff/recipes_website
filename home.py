@@ -75,13 +75,13 @@ elif page_selection == "Recipes":
                     st.error(f"Error adding recipe: {e}")
             else:
                 st.error("Please fill in all fields.")
-
+    
     elif page_option == "View Recipes":
         # View Recipes Section
         st.subheader("View Recipes")
-
+    
         meal_filter = st.selectbox("Filter by Meal Type", ["All", "Breakfast", "Lunch", "Dinner", "Dessert"])
-
+    
         try:
             with psycopg2.connect(DATABASE_URL) as conn:
                 with conn.cursor() as c:
@@ -90,7 +90,7 @@ elif page_selection == "Recipes":
                     else:
                         c.execute("SELECT id, name, meal_type FROM recipes WHERE meal_type = %s", (meal_filter,))
                     recipes = c.fetchall()
-
+    
                     if recipes:
                         for recipe_id, recipe_name, meal_type in recipes:
                             if st.button(f"{recipe_name}", key=recipe_id):
@@ -98,10 +98,20 @@ elif page_selection == "Recipes":
                                 recipe = c.fetchone()
                                 if recipe:
                                     st.subheader(f"{recipe_name} ({meal_type})")
+                                    
+                                    # Ingredients
                                     st.write("### Ingredients:")
-                                    st.write(recipe[0])
+                                    ingredients = recipe[0].split('\n')  # Assuming ingredients are separated by newline
+                                    for ingredient in ingredients:
+                                        if ingredient.strip():  # Avoid empty items
+                                            st.markdown(f"- {ingredient.strip()}")  # Display each ingredient as a bullet point
+                                    
+                                    # Instructions
                                     st.write("### Instructions:")
-                                    st.write(recipe[1])
+                                    instructions = recipe[1].split('\n')  # Assuming instructions are separated by newline
+                                    for instruction in instructions:
+                                        if instruction.strip():  # Avoid empty items
+                                            st.markdown(f"- {instruction.strip()}")  # Display each instruction as a bullet point
                     else:
                         st.write("No recipes found.")
         except Exception as e:
