@@ -39,13 +39,17 @@ if page_selection == "Home":
     st.title("Welcome to Recipe Manager! 🍴")
     st.markdown("""Happy Birthday, Mireya! 🎉❤️
 
-Four years ago you introduced me to real flavor, real seasonings and real food. 
-I hope you know how much you and your cooking has changed my life. I wanted to 
-make a way for us to track all our recipes forever. 
+Four years ago, you came into my life and introduced me to real flavor,
+real seasonings, and real food. I hope you know how much you and your 
+cooking have changed my life. I wanted to create a way for us to track 
+all our recipes forever. You mean the world to me and deserve the absolute 
+best for everything.
 
-                
-
-With all my love,
+This is a 100% customizable application exclusively for YOU! Any changes 
+you want, I will happily make for you until the end of time. Happy Birthday, 
+my love! I hope your day is filled with love, excitement, and I hope it 
+exceeds all your expectations. Once you check out your new website, I can
+give you your second surprise.
     """)
 
 # Recipes page (Add and View Recipes combined)
