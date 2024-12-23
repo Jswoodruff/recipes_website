@@ -86,6 +86,10 @@ elif page_selection == "Recipes":
         page = st.number_input("Page", min_value=1, step=1, key="page")
         offset = (page - 1) * 10  # Assume 10 recipes per page
 
+        # Initialize the session state for storing selected recipe
+        if "selected_recipe" not in st.session_state:
+            st.session_state.selected_recipe = None
+
         try:
             with psycopg2.connect(DATABASE_URL) as conn:
                 with conn.cursor() as c:
@@ -96,26 +100,33 @@ elif page_selection == "Recipes":
                     recipes = c.fetchall()
 
                     if recipes:
+                        # Display the list of recipes
                         for recipe_id, recipe_name, meal_type in recipes:
                             if st.button(f"{recipe_name}", key=recipe_id):
-                                c.execute("SELECT ingredients, instructions FROM recipes WHERE id = %s", (recipe_id,))
-                                recipe = c.fetchone()
-                                if recipe:
-                                    st.subheader(f"{recipe_name} ({meal_type})")
-                                    
-                                    # Ingredients
-                                    st.write("### Ingredients:")
-                                    ingredients = recipe[0].split('\n')  # Assuming ingredients are separated by newline
-                                    for ingredient in ingredients:
-                                        if ingredient.strip():  # Avoid empty items
-                                            st.markdown(f"- {ingredient.strip()}")  # Display each ingredient as a bullet point
-                                    
-                                    # Instructions
-                                    st.write("### Instructions:")
-                                    instructions = recipe[1].split('\n')  # Assuming instructions are separated by newline
-                                    for idx, instruction in enumerate(instructions, start=1):  # Start numbering from 1
-                                        if instruction.strip():  # Avoid empty items
-                                            st.markdown(f"{idx}. {instruction.strip()}")  # Display each instruction with a number
+                                st.session_state.selected_recipe = recipe_id  # Store the selected recipe ID
+
+                        # Display the details of the selected recipe
+                        if st.session_state.selected_recipe:
+                            selected_recipe_id = st.session_state.selected_recipe
+                            c.execute("SELECT name, ingredients, instructions, meal_type FROM recipes WHERE id = %s", (selected_recipe_id,))
+                            recipe = c.fetchone()
+
+                            if recipe:
+                                st.subheader(f"{recipe[0]} ({recipe[3]})")
+                                
+                                # Ingredients
+                                st.write("### Ingredients:")
+                                ingredients = recipe[1].split('\n')  # Assuming ingredients are separated by newline
+                                for ingredient in ingredients:
+                                    if ingredient.strip():  # Avoid empty items
+                                        st.markdown(f"- {ingredient.strip()}")  # Display each ingredient as a bullet point
+                                
+                                # Instructions
+                                st.write("### Instructions:")
+                                instructions = recipe[2].split('\n')  # Assuming instructions are separated by newline
+                                for idx, instruction in enumerate(instructions, start=1):  # Start numbering from 1
+                                    if instruction.strip():  # Avoid empty items
+                                        st.markdown(f"{idx}. {instruction.strip()}")  # Display each instruction with a number
                     else:
                         st.write("No recipes found.")
         except Exception as e:
