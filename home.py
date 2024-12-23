@@ -38,7 +38,7 @@ if DATABASE_URL:
             instructions = st.text_area("Instructions")
 
             # Meal selection dropdown
-            meal_type = st.selectbox("Select Meal Type", ["Breakfast", "Lunch", "Dinner"])
+            meal_type = st.selectbox("Select Meal Type", ["Breakfast", "Lunch", "Dinner", "Dessert" ])
 
             submit = st.form_submit_button("Add Recipe")
 
