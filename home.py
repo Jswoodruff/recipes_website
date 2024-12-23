@@ -16,10 +16,14 @@ st.markdown(
     </style>
     """, unsafe_allow_html=True)
 
-# Sidebar navigation
-page = st.sidebar.selectbox("Choose a page", ["Home", "Add Recipes", "View Recipes"])
+# Sidebar with buttons
+st.sidebar.title("Navigation")
+home_button = st.sidebar.button("Home")
+add_recipes_button = st.sidebar.button("Add Recipes")
+view_recipes_button = st.sidebar.button("View Recipes")
 
-if page == "Home":
+# Handle button clicks
+if home_button:
     st.title("Welcome to Recipe Manager! 🍴")
     st.markdown("""
     This app helps you manage and discover your favorite recipes.
@@ -28,10 +32,10 @@ if page == "Home":
     - **View Recipes**: Browse or search for stored recipes.
     """)
 
-elif page == "Add Recipes":
-    # Add Recipes code (you can import the add_recipes.py code here)
+elif add_recipes_button:
+    # Import and show the Add Recipes page (you can import add_recipes.py here)
     import add_recipes
 
-elif page == "View Recipes":
-    # View Recipes code (you can import the view_recipes.py code here)
+elif view_recipes_button:
+    # Import and show the View Recipes page (you can import view_recipes.py here)
     import view_recipes
