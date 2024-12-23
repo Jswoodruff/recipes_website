@@ -1,13 +1,14 @@
 import streamlit as st
 import psycopg2
 
+# Fetch credentials from secrets
 SUPABASE_USER = st.secrets["supabase"]["SUPABASE_USER"]
 SUPABASE_PASSWORD = st.secrets["supabase"]["SUPABASE_PASSWORD"]
 SUPABASE_HOST = st.secrets["supabase"]["SUPABASE_HOST"]
 SUPABASE_PORT = st.secrets["supabase"]["SUPABASE_PORT"]
-SUPABASE_DATABASE = st.secrets["supabase"]["SUPABASE_DATABASE"] 
+SUPABASE_DATABASE = st.secrets["supabase"]["SUPABASE_DATABASE"]
 
-# Constructing the DATABASE_URL
+# Construct the DATABASE_URL
 DATABASE_URL = f"postgres://{SUPABASE_USER}:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:{SUPABASE_PORT}/{SUPABASE_DATABASE}"
 
 # Set page title and icon
@@ -29,13 +30,12 @@ st.markdown(
     </style>
     """, unsafe_allow_html=True)
 
-# Sidebar with navigation options
+# Sidebar navigation with options
 st.sidebar.title("Navigation")
-home_button = st.sidebar.button("Home")
-recipes_button = st.sidebar.button("Recipes")
+page_selection = st.sidebar.radio("Choose a page", ("Home", "Recipes"))
 
 # Home page content
-if home_button:
+if page_selection == "Home":
     st.title("Welcome to Recipe Manager! 🍴")
     st.markdown("""
     This app helps you manage and discover your favorite recipes.
@@ -44,7 +44,7 @@ if home_button:
     """)
 
 # Recipes page (Add and View Recipes combined)
-elif recipes_button:
+elif page_selection == "Recipes":
     st.title("Manage Recipes")
 
     # Option to switch between Add Recipes and View Recipes
@@ -57,13 +57,13 @@ elif recipes_button:
         ingredients = st.text_area("Ingredients")
         instructions = st.text_area("Instructions")
         meal_type = st.selectbox("Select Meal Type", ["Breakfast", "Lunch", "Dinner", "Dessert"])
-        
+
         submit = st.button("Add Recipe")
-        
+
         if submit:
             if recipe_name and ingredients and instructions:
                 try:
-                    with psycopg2.connect(st.secrets["supabase"]["DATABASE_URL"]) as conn:
+                    with psycopg2.connect(DATABASE_URL) as conn:
                         with conn.cursor() as c:
                             c.execute(
                                 "INSERT INTO recipes (name, ingredients, instructions, meal_type) VALUES (%s, %s, %s, %s)",
@@ -83,7 +83,7 @@ elif recipes_button:
         meal_filter = st.selectbox("Filter by Meal Type", ["All", "Breakfast", "Lunch", "Dinner", "Dessert"])
 
         try:
-            with psycopg2.connect(st.secrets["supabase"]["DATABASE_URL"]) as conn:
+            with psycopg2.connect(DATABASE_URL) as conn:
                 with conn.cursor() as c:
                     if meal_filter == "All":
                         c.execute("SELECT id, name, meal_type FROM recipes")
