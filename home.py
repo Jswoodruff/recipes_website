@@ -82,15 +82,19 @@ elif page_selection == "Recipes":
     
         meal_filter = st.selectbox("Filter by Meal Type", ["All", "Breakfast", "Lunch", "Dinner", "Dessert"])
     
+        # Pagination control
+        page = st.number_input("Page", min_value=1, step=1, key="page")
+        offset = (page - 1) * 10  # Assume 10 recipes per page
+
         try:
             with psycopg2.connect(DATABASE_URL) as conn:
                 with conn.cursor() as c:
                     if meal_filter == "All":
-                        c.execute("SELECT id, name, meal_type FROM recipes")
+                        c.execute("SELECT id, name, meal_type FROM recipes LIMIT 10 OFFSET %s", (offset,))
                     else:
-                        c.execute("SELECT id, name, meal_type FROM recipes WHERE meal_type = %s", (meal_filter,))
+                        c.execute("SELECT id, name, meal_type FROM recipes WHERE meal_type = %s LIMIT 10 OFFSET %s", (meal_filter, offset))
                     recipes = c.fetchall()
-    
+
                     if recipes:
                         for recipe_id, recipe_name, meal_type in recipes:
                             if st.button(f"{recipe_name}", key=recipe_id):
