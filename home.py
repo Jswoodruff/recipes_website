@@ -30,7 +30,7 @@ st.markdown(
         /* Style for select box */
         .stSelectbox select {
             background-color: #d3d3d3;
-            color: #000000;
+            color: #d3d3d3;
             border: 1px solid #ccc;
             padding: 10px;
             border-radius: 5px;
