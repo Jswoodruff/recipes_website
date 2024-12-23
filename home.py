@@ -87,66 +87,57 @@ elif page_selection == "Recipes":
             else:
                 st.error("Please fill in all fields.")
     
-    elif page_option == "View Recipes":
-        # View Recipes Section
-        st.subheader("View Recipes")
+elif page_option == "View Recipes":
+    st.subheader("View Recipes")
+    
+    meal_filter = st.selectbox("Filter by Meal Type", ["All", "Breakfast", "Lunch", "Dinner", "Dessert"])
 
-        meal_filter = st.selectbox("Filter by Meal Type", ["All", "Breakfast", "Lunch", "Dinner", "Dessert"])
+    try:
+        with psycopg2.connect(DATABASE_URL) as conn:
+            with conn.cursor() as c:
+                if meal_filter == "All":
+                    c.execute("SELECT id, name, meal_type FROM recipes")
+                else:
+                    c.execute("SELECT id, name, meal_type FROM recipes WHERE meal_type = %s", (meal_filter,))
+                recipes = c.fetchall()
 
-        try:
-            with psycopg2.connect(DATABASE_URL) as conn:
-                with conn.cursor() as c:
-                    if meal_filter == "All":
-                        c.execute("SELECT id, name, meal_type FROM recipes")
-                    else:
-                        c.execute("SELECT id, name, meal_type FROM recipes WHERE meal_type = %s", (meal_filter,))
-                    recipes = c.fetchall()
+                if recipes:
+                    for recipe_id, recipe_name, meal_type in recipes:
+                        # Button for viewing and editing the recipe
+                        if st.button(f"Edit {recipe_name}", key=recipe_id):
+                            # Fetch the current details of the selected recipe
+                            c.execute("SELECT name, ingredients, instructions, meal_type FROM recipes WHERE id = %s", (recipe_id,))
+                            recipe = c.fetchone()
 
-                    if recipes:
-                        # Create a 5-column grid for recipe names
-                        columns = st.columns(5)  # 5 columns for the grid
-                        current_column = 0  # Track the current column in the grid
+                            # If recipe details are found, display the fields for editing
+                            if recipe:
+                                st.write(f"Editing: {recipe_name} ({meal_type})")
+                                
+                                # Input fields pre-filled with current recipe data
+                                updated_name = st.text_input("Recipe Name", value=recipe[0])
+                                updated_ingredients = st.text_area("Ingredients", value=recipe[1])
+                                updated_instructions = st.text_area("Instructions", value=recipe[2])
+                                updated_meal_type = st.selectbox("Select Meal Type", ["Breakfast", "Lunch", "Dinner", "Dessert"], index=["Breakfast", "Lunch", "Dinner", "Dessert"].index(recipe[3]))
 
-                        recipe_selected = None  # Track the selected recipe
+                                # Update button to save the changes
+                                update_submit = st.button("Update Recipe", key=f"update_{recipe_id}")
 
-                        for recipe_id, recipe_name, meal_type in recipes:
-                            if current_column == 5:  # Reset the column to 0 after 5 items
-                                current_column = 0
+                                if update_submit:
+                                    # Update the recipe in the database
+                                    try:
+                                        with psycopg2.connect(DATABASE_URL) as update_conn:
+                                            with update_conn.cursor() as update_cursor:
+                                                update_cursor.execute("""
+                                                    UPDATE recipes
+                                                    SET name = %s, ingredients = %s, instructions = %s, meal_type = %s
+                                                    WHERE id = %s
+                                                """, (updated_name, updated_ingredients, updated_instructions, updated_meal_type, recipe_id))
+                                                update_conn.commit()
+                                                st.success(f"Recipe '{updated_name}' updated successfully!")
+                                    except Exception as e:
+                                        st.error(f"Error updating recipe: {e}")
 
-                            with columns[current_column]:
-                                # Button for each recipe
-                                if st.button(f"{recipe_name}", key=recipe_id):
-                                    recipe_selected = recipe_id  # Track the selected recipe
-
-                            current_column += 1  # Move to the next column
-
-                        # If a recipe is selected, show the detailed view
-                        if recipe_selected:
-                            # Fetch the selected recipe details
-                            with psycopg2.connect(DATABASE_URL) as conn:
-                                with conn.cursor() as c:
-                                    c.execute("SELECT name, ingredients, instructions, meal_type FROM recipes WHERE id = %s", (recipe_selected,))
-                                    recipe = c.fetchone()
-                                    if recipe:
-                                        recipe_name, ingredients, instructions, meal_type = recipe
-
-                                        st.subheader(f"{recipe_name} ({meal_type})")
-
-                                        # Ingredients
-                                        st.write("### Ingredients:")
-                                        ingredients = ingredients.split('\n')  # Assuming ingredients are separated by newline
-                                        for ingredient in ingredients:
-                                            if ingredient.strip():  # Avoid empty items
-                                                st.markdown(f"- {ingredient.strip()}")  # Display each ingredient as a bullet point
-
-                                        # Instructions
-                                        st.write("### Instructions:")
-                                        instructions = instructions.split('\n')  # Assuming instructions are separated by newline
-                                        for idx, instruction in enumerate(instructions, start=1):  # Start numbering from 1
-                                            if instruction.strip():  # Avoid empty items
-                                                st.markdown(f"{idx}. {instruction.strip()}")  # Display each instruction with a number
-
-                    else:
-                        st.write("No recipes found.")
-        except Exception as e:
-            st.error(f"Error fetching recipes: {e}")
+                else:
+                    st.write("No recipes found.")
+    except Exception as e:
+        st.error(f"Error fetching recipes: {e}")
