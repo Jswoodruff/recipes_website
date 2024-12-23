@@ -6,7 +6,7 @@ st.markdown(
     <style>
         /* Make the sidebar narrower */
         .css-1d391kg {  /* Sidebar container */
-            width: 150px;  /* Adjust this value to make the sidebar smaller */
+            width: 50px;  /* Adjust this value to make the sidebar smaller */
         }
 
         /* Optionally, adjust the width of the main content area to match the new sidebar */
