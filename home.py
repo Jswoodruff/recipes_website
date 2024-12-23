@@ -47,12 +47,12 @@ if page_selection == "Home":
     st.title("Welcome to Your Recipe Book! 🍴")
 
 
-# Recipes page (Add and View Recipes combined)
+# Recipes page (Add, View, and Edit Recipes combined)
 elif page_selection == "Recipes":
     st.title("Manage Recipes")
 
-    # Option to switch between Add Recipes and View Recipes
-    page_option = st.radio("Choose an action", ("Add Recipe", "View Recipes"))
+    # Option to switch between Add Recipe, View Recipes, and Edit Recipes
+    page_option = st.radio("Choose an action", ("Add Recipe", "View Recipes", "Edit Recipe"))
 
     if page_option == "Add Recipe":
         # Add Recipe Section
@@ -117,14 +117,10 @@ elif page_selection == "Recipes":
                                 # Button for each recipe
                                 if st.button(f"{recipe_name}", key=recipe_id):
                                     recipe_selected = recipe_id  # Track the selected recipe
-                            
-                                # Add an "Edit" button next to each recipe
-                                if st.button(f"Edit {recipe_name}", key=f"edit_{recipe_id}"):
-                                    recipe_selected = recipe_id  # Track the selected recipe for editing
 
                             current_column += 1  # Move to the next column
 
-                        # If a recipe is selected, show the detailed view or edit form
+                        # If a recipe is selected, show the detailed view
                         if recipe_selected:
                             # Fetch the selected recipe details
                             with psycopg2.connect(DATABASE_URL) as conn:
@@ -134,34 +130,76 @@ elif page_selection == "Recipes":
                                     if recipe:
                                         recipe_name, ingredients, instructions, meal_type = recipe
 
-                                        # If editing, display the editing form
-                                        st.write(f"Editing: {recipe_name} ({meal_type})")
+                                        st.subheader(f"{recipe_name} ({meal_type})")
 
-                                        updated_name = st.text_input("Recipe Name", value=recipe_name)
-                                        updated_ingredients = st.text_area("Ingredients", value=ingredients)
-                                        updated_instructions = st.text_area("Instructions", value=instructions)
-                                        updated_meal_type = st.selectbox("Select Meal Type", ["Breakfast", "Lunch", "Dinner", "Dessert"], index=["Breakfast", "Lunch", "Dinner", "Dessert"].index(meal_type))
+                                        # Ingredients
+                                        st.write("### Ingredients:")
+                                        ingredients = ingredients.split('\n')  # Assuming ingredients are separated by newline
+                                        for ingredient in ingredients:
+                                            if ingredient.strip():  # Avoid empty items
+                                                st.markdown(f"- {ingredient.strip()}")  # Display each ingredient as a bullet point
 
-                                        update_submit = st.button("Update Recipe", key=f"update_{recipe_selected}")
+                                        # Instructions
+                                        st.write("### Instructions:")
+                                        instructions = instructions.split('\n')  # Assuming instructions are separated by newline
+                                        for idx, instruction in enumerate(instructions, start=1):  # Start numbering from 1
+                                            if instruction.strip():  # Avoid empty items
+                                                st.markdown(f"{idx}. {instruction.strip()}")  # Display each instruction with a number
 
-                                        if update_submit:
-                                            # Capitalize the updated recipe name, ingredients, and instructions
-                                            updated_name = updated_name.strip().capitalize()
-                                            updated_ingredients = "\n".join([ingredient.strip().capitalize() for ingredient in updated_ingredients.split("\n") if ingredient.strip()])
-                                            updated_instructions = "\n".join([instruction.strip().capitalize() for instruction in updated_instructions.split("\n") if instruction.strip()])
+                    else:
+                        st.write("No recipes found.")
+        except Exception as e:
+            st.error(f"Error fetching recipes: {e}")
 
-                                            # Update the recipe in the database
-                                            try:
-                                                with psycopg2.connect(DATABASE_URL) as conn:
-                                                    with conn.cursor() as c:
-                                                        c.execute(
-                                                            "UPDATE recipes SET name = %s, ingredients = %s, instructions = %s, meal_type = %s WHERE id = %s",
-                                                            (updated_name, updated_ingredients, updated_instructions, updated_meal_type, recipe_selected)
-                                                        )
-                                                        conn.commit()
-                                                        st.success(f"Recipe '{updated_name}' updated successfully!")
-                                            except Exception as e:
-                                                st.error(f"Error updating recipe: {e}")
+    elif page_option == "Edit Recipe":
+        # Edit Recipe Section
+        st.subheader("Edit a Recipe")
+
+        # Allow user to select a recipe to edit
+        try:
+            with psycopg2.connect(DATABASE_URL) as conn:
+                with conn.cursor() as c:
+                    c.execute("SELECT id, name FROM recipes")
+                    recipes = c.fetchall()
+
+                    if recipes:
+                        recipe_choices = {recipe_id: recipe_name for recipe_id, recipe_name in recipes}
+                        recipe_to_edit = st.selectbox("Select a recipe to edit", list(recipe_choices.values()))
+
+                        # Fetch the selected recipe details
+                        selected_recipe_id = [key for key, value in recipe_choices.items() if value == recipe_to_edit][0]
+                        c.execute("SELECT name, ingredients, instructions, meal_type FROM recipes WHERE id = %s", (selected_recipe_id,))
+                        recipe = c.fetchone()
+                        
+                        if recipe:
+                            recipe_name, ingredients, instructions, meal_type = recipe
+
+                            # Editing form
+                            updated_name = st.text_input("Recipe Name", value=recipe_name)
+                            updated_ingredients = st.text_area("Ingredients", value=ingredients)
+                            updated_instructions = st.text_area("Instructions", value=instructions)
+                            updated_meal_type = st.selectbox("Select Meal Type", ["Breakfast", "Lunch", "Dinner", "Dessert"], index=["Breakfast", "Lunch", "Dinner", "Dessert"].index(meal_type))
+
+                            update_submit = st.button("Update Recipe")
+
+                            if update_submit:
+                                # Capitalize the updated recipe name, ingredients, and instructions
+                                updated_name = updated_name.strip().capitalize()
+                                updated_ingredients = "\n".join([ingredient.strip().capitalize() for ingredient in updated_ingredients.split("\n") if ingredient.strip()])
+                                updated_instructions = "\n".join([instruction.strip().capitalize() for instruction in updated_instructions.split("\n") if instruction.strip()])
+
+                                # Update the recipe in the database
+                                try:
+                                    with psycopg2.connect(DATABASE_URL) as conn:
+                                        with conn.cursor() as c:
+                                            c.execute(
+                                                "UPDATE recipes SET name = %s, ingredients = %s, instructions = %s, meal_type = %s WHERE id = %s",
+                                                (updated_name, updated_ingredients, updated_instructions, updated_meal_type, selected_recipe_id)
+                                            )
+                                            conn.commit()
+                                            st.success(f"Recipe '{updated_name}' updated successfully!")
+                                except Exception as e:
+                                    st.error(f"Error updating recipe: {e}")
 
                     else:
                         st.write("No recipes found.")
