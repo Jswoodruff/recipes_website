@@ -2,7 +2,7 @@
 primaryColor = "#1E88E5"    # Customize the primary color (blue in this case)
 backgroundColor = "#000000" 
 secondaryBackgroundColor = "#FFFFFF" # Set a white sidebar background
-textColor = "#262730"       # Customize text color
+textColor = "#F5F5F5"       # Customize text color
 font = "sans serif"         # Choose font style
 
 [global]
