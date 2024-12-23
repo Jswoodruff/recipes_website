@@ -22,6 +22,10 @@ home_button = st.sidebar.button("Home")
 add_recipes_button = st.sidebar.button("Add Recipes")
 view_recipes_button = st.sidebar.button("View Recipes")
 
+# Initialize the app to show the Home page by default
+if not (home_button or add_recipes_button or view_recipes_button):  # When no buttons are clicked, default to Home
+    home_button = True
+
 # Handle button clicks
 if home_button:
     st.title("Welcome to Recipe Manager! 🍴")
