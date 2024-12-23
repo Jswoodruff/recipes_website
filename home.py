@@ -40,7 +40,7 @@ if home_button:
 
 elif add_recipes_button:
     # Import and show the Add Recipes page (you can import add_recipes.py here)
-    import add_recipes
+    import add_recipe
 
 elif view_recipes_button:
     # Import and show the View Recipes page (you can import view_recipes.py here)
