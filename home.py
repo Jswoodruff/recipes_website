@@ -109,9 +109,9 @@ elif page_selection == "Recipes":
                                     # Instructions
                                     st.write("### Instructions:")
                                     instructions = recipe[1].split('\n')  # Assuming instructions are separated by newline
-                                    for instruction in instructions:
+                                    for idx, instruction in enumerate(instructions, start=1):  # Start numbering from 1
                                         if instruction.strip():  # Avoid empty items
-                                            st.markdown(f"- {instruction.strip()}")  # Display each instruction as a bullet point
+                                            st.markdown(f"{idx}. {instruction.strip()}")  # Display each instruction with a number
                     else:
                         st.write("No recipes found.")
         except Exception as e:
