@@ -104,7 +104,7 @@ elif page_selection == "Recipes":
                         # Create two columns for displaying the recipes in a 2x5 grid
                         cols = st.columns(2)
                         for i, (recipe_id, recipe_name, meal_type) in enumerate(recipes):
-                            col = cols[i % 2]  # Alternate between the two columns
+                            col = cols[i % 5]  # Alternate between the two columns
                             if col.button(f"{recipe_name}", key=recipe_id):
                                 st.session_state.selected_recipe = recipe_id  # Store the selected recipe ID
 
