@@ -1,5 +1,21 @@
 import streamlit as st
 
+# Custom CSS for a smaller sidebar
+st.markdown(
+    """
+    <style>
+        /* Make the sidebar narrower */
+        .css-1d391kg {  /* Sidebar container */
+            width: 150px;  /* Adjust this value to make the sidebar smaller */
+        }
+
+        /* Optionally, adjust the width of the main content area to match the new sidebar */
+        .css-1v0mbdj {  /* Main content area */
+            margin-left: 150px;  /* Adjust this to match the new sidebar width */
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Sidebar navigation
 page = st.sidebar.selectbox("Choose a page", ["Home", "Add Recipes", "View Recipes"])
 
