@@ -37,6 +37,7 @@ page_selection = st.sidebar.radio("Choose a page", ("Home", "Recipes"))
 # Home page content
 if page_selection == "Home":
     st.title("Welcome to Recipe Manager! 🍴")
+    '''
     st.markdown("""Happy Birthday, Mireya! 🎉❤️
 
 Four years ago, you came into my life and introduced me to real flavor,
@@ -51,7 +52,7 @@ my love! I hope your day is filled with love, excitement, and I hope it
 exceeds all your expectations. Once you check out your new website, I can
 give you your second surprise.
     """)
-
+'''
 # Recipes page (Add and View Recipes combined)
 elif page_selection == "Recipes":
     st.title("Manage Recipes")
