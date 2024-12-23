@@ -99,38 +99,51 @@ elif page_selection == "Recipes":
                     recipes = c.fetchall()
         
                     if recipes:
-                        # Create a 5-column grid
+                        # Create a 5-column grid for recipe names
                         columns = st.columns(5)  # 5 columns for the grid
                         current_column = 0  # Track the current column in the grid
-        
+    
+                        recipe_selected = None  # Track the selected recipe
+                    
                         for recipe_id, recipe_name, meal_type in recipes:
                             if current_column == 5:  # Reset the column to 0 after 5 items
                                 current_column = 0
-        
+    
                             with columns[current_column]:
                                 # Button for each recipe
                                 if st.button(f"{recipe_name}", key=recipe_id):
-                                    c.execute("SELECT ingredients, instructions FROM recipes WHERE id = %s", (recipe_id,))
+                                    recipe_selected = recipe_id  # Track the selected recipe
+                            
+                            current_column += 1  # Move to the next column
+                        
+                        # If a recipe is selected, show the detailed view
+                        if recipe_selected:
+                            # Fetch the selected recipe details
+                            with psycopg2.connect(DATABASE_URL) as conn:
+                                with conn.cursor() as c:
+                                    c.execute("SELECT name, ingredients, instructions, meal_type FROM recipes WHERE id = %s", (recipe_selected,))
                                     recipe = c.fetchone()
                                     if recipe:
+                                        recipe_name, ingredients, instructions, meal_type = recipe
+                                        
                                         st.subheader(f"{recipe_name} ({meal_type})")
                                         
                                         # Ingredients
                                         st.write("### Ingredients:")
-                                        ingredients = recipe[0].split('\n')  # Assuming ingredients are separated by newline
+                                        ingredients = ingredients.split('\n')  # Assuming ingredients are separated by newline
                                         for ingredient in ingredients:
                                             if ingredient.strip():  # Avoid empty items
                                                 st.markdown(f"- {ingredient.strip()}")  # Display each ingredient as a bullet point
                                         
                                         # Instructions
                                         st.write("### Instructions:")
-                                        instructions = recipe[1].split('\n')  # Assuming instructions are separated by newline
+                                        instructions = instructions.split('\n')  # Assuming instructions are separated by newline
                                         for idx, instruction in enumerate(instructions, start=1):  # Start numbering from 1
                                             if instruction.strip():  # Avoid empty items
                                                 st.markdown(f"{idx}. {instruction.strip()}")  # Display each instruction with a number
-                            
-                            current_column += 1  # Move to the next column
+    
                     else:
                         st.write("No recipes found.")
         except Exception as e:
             st.error(f"Error fetching recipes: {e}")
+    
