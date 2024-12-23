@@ -18,14 +18,22 @@ st.set_page_config(page_title="Recipe Manager", page_icon="🍴")
 st.markdown(
     """
     <style>
-        /* Make the sidebar narrower */
-        .css-1d391kg {  /* Sidebar container */
-            width: 150px;  /* Adjust this value to make the sidebar smaller */
+        /* Style for text inputs */
+        .streamlit-expanderHeader, .css-1v0mbdj, .css-1d391kg, .stTextInput input, .stTextArea textarea {
+            background-color: #f0f0f0;  /* Light grey background */
+            color: #000000;  /* Black text */
+            border: 1px solid #ccc;  /* Light grey border */
+            padding: 10px;  /* Padding inside the input box */
+            border-radius: 5px;  /* Rounded corners for a smoother look */
         }
-
-        /* Optionally, adjust the width of the main content area to match the new sidebar */
-        .css-1v0mbdj {  /* Main content area */
-            margin-left: 150px;  /* Adjust this to match the new sidebar width */
+        
+        /* Style for select box */
+        .stSelectbox select {
+            background-color: #f0f0f0;
+            color: #000000;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
         }
     </style>
     """, unsafe_allow_html=True)
