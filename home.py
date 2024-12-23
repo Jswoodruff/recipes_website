@@ -39,9 +39,7 @@ if page_selection == "Home":
     st.title("Welcome to Recipe Manager! 🍴")
     st.markdown("""Happy Birthday, Mireya! 🎉❤️
 
-                Four years ago you introduced me to real flavor, real seasonings and real food.
-                I hope you know how much you and your cooking has changed my life. I wanted to 
-                make a way for us to track all our recipes forever. 
+                Four years ago you introduced me to real flavor, real seasonings and real food. I hope you know how much you and your cooking has changed my life. I wanted to make a way for us to track all our recipes forever. 
 
                 
 
