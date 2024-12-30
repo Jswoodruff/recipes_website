@@ -58,6 +58,8 @@ This is a 100% customizable application exclusively for YOU! Any changes
 you want, I will happily make for you until the end of time. Happy Birthday, 
 my love! I hope your day is filled with love, excitement, and I hope it 
 exceeds all your expectations.
+                
+Click the arrow in the top left and choose 'Recipes'. 
     """)
 
 
