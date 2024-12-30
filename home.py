@@ -46,6 +46,20 @@ page_selection = st.sidebar.radio("Choose a page", ("Home", "Recipes"))
 if page_selection == "Home":
     st.title("Welcome to Your Recipe Book! 🍴")
 
+    st.markdown("""Happy Birthday, Mireya! 🎉❤️
+
+Four years ago, you came into my life and introduced me to real flavor,
+real seasonings, and real food. I hope you know how much you and your 
+cooking have changed my life. I wanted to create a way for us to track 
+all our recipes forever. You mean the world to me and deserve the absolute 
+best for everything.
+
+This is a 100% customizable application exclusively for YOU! Any changes 
+you want, I will happily make for you until the end of time. Happy Birthday, 
+my love! I hope your day is filled with love, excitement, and I hope it 
+exceeds all your expectations.
+    """)
+
 
 # Recipes page (Add, View, and Edit Recipes combined)
 elif page_selection == "Recipes":
